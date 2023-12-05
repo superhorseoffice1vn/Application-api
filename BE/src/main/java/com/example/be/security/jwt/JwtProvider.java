@@ -22,7 +22,6 @@ public class JwtProvider {
 
     private Integer jwtExpiration = 1 * 24 * 60 * 60;
 
-    //Login xong sẽ chạy tới hàm nay và tạo ra create
     public String createToken(Authentication authentication) {
         MyUserDetail myUserDetail = (MyUserDetail) authentication.getPrincipal();
 
@@ -33,15 +32,6 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String createTokenWithUsername(String username) {
-        return Jwts.builder().setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpiration * 1000))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
-
-    //Check xem token có hợp lệ hay không.
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);

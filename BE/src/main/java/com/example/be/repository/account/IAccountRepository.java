@@ -17,7 +17,7 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     @Query(
             value = " select * " +
                     " from account " +
-                    " where user_name = :username ",
+                    " where username = :username ",
             nativeQuery = true
     )
     Account findAccountByUsername(@Param("username") String username);

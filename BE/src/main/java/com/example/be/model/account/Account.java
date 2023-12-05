@@ -4,11 +4,13 @@ import com.example.be.model.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.transaction.Transactional;
 
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public class Account {
     private String username;
     private String password;
     private boolean deleteStatus;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
     @JsonBackReference
     private Set<AccountRole> accountRoles;
 
