@@ -1,5 +1,6 @@
 package com.example.be.controller;
 
+import com.example.be.dto.request.CheckUsername;
 import com.example.be.dto.request.SignInForm;
 import com.example.be.dto.request.SignUpForm;
 import com.example.be.dto.response.JwtResponse;
@@ -58,6 +59,14 @@ public class AuthController {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    @PostMapping("/checkUniqueUsername")
+    public ResponseEntity<?> checkUniqueUserName(@RequestBody CheckUsername checkUsername) {
+        if (accountService.existsByUsername(checkUsername.getUsername())) {
+            return new ResponseEntity<>(true,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false,HttpStatus.OK);
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/signup")
