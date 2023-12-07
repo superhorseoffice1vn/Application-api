@@ -97,7 +97,7 @@ public class AuthController {
         return new ResponseEntity<>(new ResponseMessage("Create user success!"), HttpStatus.OK);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody SignInForm signInForm) {
 
         if (!accountService.existsByUsername(signInForm.getUsername())) {

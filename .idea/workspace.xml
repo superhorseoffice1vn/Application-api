@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="255b18fd-8954-42bd-919f-42a8ef9aedde" name="Changes" comment="" />
+    <list default="true" id="255b18fd-8954-42bd-919f-42a8ef9aedde" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/5/151feddb7a84dc9c8f94df4447ac586efad3b068" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/e/2e5eb9b6274898e6b0377ada91278db1a5458ee5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2Z3pvhCtSS0Fs1p9fJ2yvgSkavn" />
   <component name="ProjectViewState">
@@ -27,6 +34,7 @@
       <option name="presentableId" value="Default" />
       <updated>1701660850384</updated>
       <workItem from="1701660851971" duration="64000" />
+      <workItem from="1701873176546" duration="277000" />
     </task>
     <servers />
   </component>
