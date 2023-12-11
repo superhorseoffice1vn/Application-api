@@ -87,10 +87,6 @@ public class AuthController {
         Account account = new Account();
         BeanUtils.copyProperties(signUpForm, account);
 
-        UserType userType = new UserType();
-        userType.setId(signUpForm.getIdUserType());
-        user.setUserType(userType);
-
         BeanUtils.copyProperties(signUpForm, userService);
         account.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         Account account1 = accountService.createAccount(account);
@@ -109,9 +105,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody SignInForm signInForm) {
 
-        if (!accountService.existsByUsername(signInForm.getUsername())) {
-            return new ResponseEntity<>(new ResponseMessage("Login unsuccessful!"), HttpStatus.OK);
-        }
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword()));
 

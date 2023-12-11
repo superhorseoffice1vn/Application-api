@@ -20,31 +20,6 @@ public class UserValidator {
             return message;
         }
 
-        message = validateAddress(addUserRequest.getAddress());
-        if (message != null) {
-            return message;
-        }
-
-        message = validateBirthDay(addUserRequest.getBirthDay());
-        if (message != null) {
-            return message;
-        }
-
-        message = validateIdCard(addUserRequest.getIdCard());
-        if (message != null) {
-            return message;
-        }
-
-        message = validateGender(addUserRequest.getGender());
-        if (message != null) {
-            return message;
-        }
-
-        message = validateIdUserType(addUserRequest.getIdUserType());
-        if (message != null) {
-            return message;
-        }
-
         return new ResponseMessage("");
     }
 

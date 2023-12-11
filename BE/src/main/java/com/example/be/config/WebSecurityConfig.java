@@ -57,7 +57,7 @@ public class WebSecurityConfig
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
             .authorizeRequests()
-            .antMatchers("/api/auth/**").permitAll()
+            .antMatchers("/api/**").permitAll()
             .anyRequest().authenticated()
             .and().exceptionHandling()
             .authenticationEntryPoint(jwtEntryPoint)

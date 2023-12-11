@@ -1,13 +1,20 @@
-package com.example.be.dto.request;
+package com.example.be.dto.response.employee;
 
-public class SignUpForm {
-
+public class EmployeeDetailDto {
     private Integer id;
     private String name;
     private String phoneNumber;
     private String username;
-    private String password;
 
+    public EmployeeDetailDto() {
+    }
+
+    public EmployeeDetailDto(final Integer id, final String name, final String phoneNumber, final String username) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.username = username;
+    }
 
     public Integer getId() {
         return id;
@@ -39,13 +46,5 @@ public class SignUpForm {
 
     public void setUsername(final String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
     }
 }
