@@ -37,5 +37,10 @@ public class UserService implements IUserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Override
+    public User findById(final Integer id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 
 }

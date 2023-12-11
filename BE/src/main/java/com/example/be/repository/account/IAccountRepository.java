@@ -22,11 +22,11 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     )
     Account findAccountByUsername(@Param("username") String username);
 
-    Optional<Account> findByUserName (String name);
+    Optional<Account> findByUsername (String name);
 
     Boolean existsByUsername ( String username);
 
     @Modifying
-    @Query(value = "update account set password = :password where user_name = :userName", nativeQuery = true)
-    void changePassword(@Param("password") String password, @Param("userName") String userName);
+    @Query(value = "update account set password = :password where username = :username", nativeQuery = true)
+    void changePassword(@Param("password") String password, @Param("username") String username);
 }

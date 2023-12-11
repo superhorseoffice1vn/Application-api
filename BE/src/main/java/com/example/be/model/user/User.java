@@ -2,7 +2,7 @@ package com.example.be.model.user;
 
 
 import com.example.be.model.account.Account;
-import com.example.be.model.address.UserAddress;
+import com.example.be.model.Agent.Agent;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.Entity;
@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import java.util.Set;
 
@@ -41,9 +40,9 @@ public class User {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    @OneToMany(mappedBy = "user")
     @JsonBackReference
-    private Set<UserAddress> userAddresses;
+    @OneToMany(mappedBy = "user")
+    private Set<Agent> agents;
 
     public Integer getId() {
         return id;
@@ -131,5 +130,13 @@ public class User {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Set<Agent> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(final Set<Agent> agents) {
+        this.agents = agents;
     }
 }

@@ -13,7 +13,7 @@ public interface IAccountService {
 
     Boolean existsByUsername(String username);
 
-    Optional<Account> findByName(String userName);
+    Optional<Account> findByName(String username);
 
-    void updatePassword(String password, String userName);
+    void updatePassword(String password, String username);
 }

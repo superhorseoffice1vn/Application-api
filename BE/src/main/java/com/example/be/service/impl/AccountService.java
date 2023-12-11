@@ -29,12 +29,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Optional<Account> findByName(String userName) {
-        return accountRepository.findByUserName(userName);
+    public Optional<Account> findByName(String username) {
+        return accountRepository.findByUsername(username);
     }
 
     @Override
-    public void updatePassword(String password, String userName) {
-        accountRepository.changePassword(password,userName);
+    public void updatePassword(String password, String username) {
+        accountRepository.changePassword(password,username);
     }
 }
