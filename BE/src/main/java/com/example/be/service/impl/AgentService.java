@@ -24,6 +24,16 @@ public class AgentService implements IAgentService {
     }
 
     @Override
+    public Agent findById(final Integer id) {
+        return iAgentRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Agent updateAgent(final Agent agent) {
+        return iAgentRepository.save(agent);
+    }
+
+    @Override
     public Page<IAgentEmployeeDto> getAgentsEmployee(final AgentsEmployeeDto agentsEmployeeDto, final Pageable pageable) {
         return iAgentRepository.getAgentsEmployee(agentsEmployeeDto,pageable);
     }

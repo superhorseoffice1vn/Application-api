@@ -1,4 +1,4 @@
-package com.example.be.dto.request;
+package com.example.be.dto.request.agent;
 
 public class CreateAgentDto {
     private Integer id;
