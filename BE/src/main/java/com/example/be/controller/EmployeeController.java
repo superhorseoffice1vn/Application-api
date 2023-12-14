@@ -84,18 +84,24 @@ public class EmployeeController {
         return new ResponseEntity<>(new ResponseMessage("Thay đổi mật khẩu thất bại"), HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody @Validated UpdateEmployeeDto updateAgentDto,
                                     BindingResult bindingResult,
                                     @PathVariable Integer id) {
-        if (accountService.existsByUsername(updateAgentDto.getUsername())) {
-            return new ResponseEntity<>(new ResponseMessage("The username existed! Please try again!"), HttpStatus.OK);
+
+        User user = userService.findById(id);
+        Account account = accountService.findById(user.getId());
+        String newUsername = updateAgentDto.getUsername();
+
+        if (!account.getUsername().equals(newUsername)) {
+            if (accountService.existsByUsername(newUsername)) {
+                return new ResponseEntity<>(new ResponseMessage("The username existed! Please try again!"), HttpStatus.OK);
+            }
         }
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getFieldErrors(), HttpStatus.NOT_ACCEPTABLE);
         }
-        User user = userService.findById(id);
-        Account account = accountService.findById(user.getId());
         BeanUtils.copyProperties(updateAgentDto, account);
         account.setPassword(passwordEncoder.encode(updateAgentDto.getPassword()));
         accountService.updateAccount(account);

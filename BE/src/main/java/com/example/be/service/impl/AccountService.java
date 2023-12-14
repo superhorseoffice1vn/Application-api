@@ -39,6 +39,7 @@ public class AccountService implements IAccountService {
         return accountRepository.existsByUsername(username);
     }
 
+
     @Override
     public Optional<Account> findByName(String username) {
         return accountRepository.findByUsername(username);
