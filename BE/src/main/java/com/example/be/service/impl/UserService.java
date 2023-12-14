@@ -1,5 +1,6 @@
 package com.example.be.service.impl;
 
+import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
 import com.example.be.model.user.User;
@@ -45,6 +46,11 @@ public class UserService implements IUserService {
     @Override
     public User findById(final Integer id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public UpdateEmployeeDto findByIdEmployee(final Integer id) {
+        return userRepository.getByIdEmployee(id);
     }
 
 

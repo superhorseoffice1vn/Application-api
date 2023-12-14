@@ -1,5 +1,6 @@
 package com.example.be.repository.user;
 
+import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
 import com.example.be.model.user.User;
@@ -27,6 +28,10 @@ public interface IUserRepository
     @Query(value = "SELECT new com.example.be.dto.response.employee.EmployeeDetailDto(u.id, u.name, u.phoneNumber, a.username) " +
             "FROM User u JOIN Account a ON a.id = u.account.id WHERE u.id = :id")
     EmployeeDetailDto getDetailEmployee(@Param("id") Integer id);
+
+    @Query(value = "SELECT new com.example.be.dto.request.employee.UpdateEmployeeDto(u.name, u.phoneNumber, a.username , a.password) " +
+            "FROM User u JOIN Account a ON a.id = u.account.id WHERE u.id = :id")
+    UpdateEmployeeDto getByIdEmployee(@Param("id") Integer id);
 
     Boolean existsByEmail(String email);
 }

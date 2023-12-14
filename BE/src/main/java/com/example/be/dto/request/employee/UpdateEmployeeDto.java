@@ -6,6 +6,14 @@ public class UpdateEmployeeDto {
     private String username;
     private String password;
 
+
+    public UpdateEmployeeDto(final String name, final String phoneNumber, final String username, final String password) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.username = username;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }

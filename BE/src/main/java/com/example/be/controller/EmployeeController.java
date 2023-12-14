@@ -103,4 +103,10 @@ public class EmployeeController {
         userService.updateUser(user);
         return new ResponseEntity<>(new ResponseMessage("Edit user success!"), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UpdateEmployeeDto> employeeById(@PathVariable() Integer id) {
+        UpdateEmployeeDto updateEmployeeDto = userService.findByIdEmployee(id);
+        return new ResponseEntity<>(updateEmployeeDto, HttpStatus.OK);
+    }
 }

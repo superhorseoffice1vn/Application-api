@@ -1,5 +1,6 @@
 package com.example.be.service;
 
+import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
 import com.example.be.model.user.User;
@@ -18,5 +19,7 @@ public interface IUserService {
     Boolean existsByEmail ( String email);
 
     User findById(Integer id);
+
+    UpdateEmployeeDto findByIdEmployee(Integer id);
 
 }
