@@ -24,6 +24,17 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public Account findById(final Integer id) {
+        return accountRepository.findById(id).orElse(null);
+    }
+
+
+    @Override
+    public Account updateAccount(final Account account) {
+        return accountRepository.save(account);
+    }
+
+    @Override
     public Boolean existsByUsername(String username) {
         return accountRepository.existsByUsername(username);
     }

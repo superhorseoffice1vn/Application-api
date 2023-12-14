@@ -13,6 +13,8 @@ public interface IUserService {
 
     void createUser(User user);
 
+    User updateUser(User user);
+
     Boolean existsByEmail ( String email);
 
     User findById(Integer id);

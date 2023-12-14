@@ -11,6 +11,10 @@ public interface IAccountService {
 
     Account createAccount(Account account);
 
+    Account findById(Integer id);
+
+    Account updateAccount(Account account);
+
     Boolean existsByUsername(String username);
 
     Optional<Account> findByName(String username);

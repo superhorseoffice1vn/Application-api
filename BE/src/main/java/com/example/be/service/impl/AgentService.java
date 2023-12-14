@@ -34,6 +34,11 @@ public class AgentService implements IAgentService {
     }
 
     @Override
+    public void deleteAgent(final Integer id) {
+        iAgentRepository.deleteAgent(id);
+    }
+
+    @Override
     public Page<IAgentEmployeeDto> getAgentsEmployee(final AgentsEmployeeDto agentsEmployeeDto, final Pageable pageable) {
         return iAgentRepository.getAgentsEmployee(agentsEmployeeDto,pageable);
     }

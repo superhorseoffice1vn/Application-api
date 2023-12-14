@@ -33,6 +33,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User updateUser(final User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }

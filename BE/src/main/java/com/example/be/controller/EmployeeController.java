@@ -1,12 +1,15 @@
 package com.example.be.controller;
 
+import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.ResponseMessage;
 import com.example.be.dto.response.employee.ChangePasswordForm;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
 import com.example.be.model.account.Account;
+import com.example.be.model.user.User;
 import com.example.be.service.IAccountService;
 import com.example.be.service.IUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,5 +82,25 @@ public class EmployeeController {
             return new ResponseEntity<>(new ResponseMessage("Cập nhật mật khẩu thành công"), HttpStatus.OK);
         }
         return new ResponseEntity<>(new ResponseMessage("Thay đổi mật khẩu thất bại"), HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@RequestBody @Validated UpdateEmployeeDto updateAgentDto,
+                                    BindingResult bindingResult,
+                                    @PathVariable Integer id) {
+        if (accountService.existsByUsername(updateAgentDto.getUsername())) {
+            return new ResponseEntity<>(new ResponseMessage("The username existed! Please try again!"), HttpStatus.OK);
+        }
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getFieldErrors(), HttpStatus.NOT_ACCEPTABLE);
+        }
+        User user = userService.findById(id);
+        Account account = accountService.findById(user.getId());
+        BeanUtils.copyProperties(updateAgentDto, account);
+        account.setPassword(passwordEncoder.encode(updateAgentDto.getPassword()));
+        accountService.updateAccount(account);
+        BeanUtils.copyProperties(updateAgentDto, user);
+        userService.updateUser(user);
+        return new ResponseEntity<>(new ResponseMessage("Edit user success!"), HttpStatus.OK);
     }
 }

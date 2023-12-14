@@ -8,6 +8,7 @@ import com.example.be.model.Agent.Agent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,7 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             "join user u on u.id = a.id_user " +
             "where a.name_agent like %:#{#agentsEmployeeDto.nameAgent}% " +
             "and u.id = :#{#agentsEmployeeDto.id} " +
+            "and a.delete_status = false " +
             "group by a.id " +
             "order by a.id desc",nativeQuery = true)
     Page<IAgentEmployeeDto>getAgentsEmployee(@Param("agentsEmployeeDto")AgentsEmployeeDto agentsEmployeeDto,
@@ -40,7 +42,12 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             " from `agent` a " +
             " join `user` u on u.id = a.id_user " +
             " where u.name like %:#{#agentsAdminDto.nameEmployee}%" +
+            " and a.delete_status = false " +
             " order by a.id desc",nativeQuery = true)
     Page<IAgentAdminDto> getAgentsAdmin(@Param("agentsAdminDto")AgentsAdminDto agentsAdminDto,
                                         Pageable pageable);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update agent a set a.delete_status = true where id = :id",nativeQuery = true)
+    void deleteAgent(@Param("id") Integer id);
 }
