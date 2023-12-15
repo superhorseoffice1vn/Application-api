@@ -1,5 +1,6 @@
 package com.example.be.service;
 
+import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
@@ -8,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
-    Page<IEmployeeDto> findAllEmployee(Pageable pageable);
+    Page<IEmployeeDto> findAllEmployee(SearchEmployee searchEmployee, Pageable pageable);
 
     EmployeeDetailDto getUserById(Integer id);
 

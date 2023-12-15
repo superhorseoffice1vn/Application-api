@@ -1,5 +1,6 @@
 package com.example.be.repository.user;
 
+import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
@@ -19,11 +20,18 @@ public interface IUserRepository
             "       u.name,\n" +
             "       u.phone_number as phoneNumber,\n" +
             "       a.username\n" +
-            "from `user` u\n" +
-            "join `account` a on a.id = u.account_id\n" +
-            "group by u.id\n" +
-            "order by u.id desc ", nativeQuery = true)
-    Page<IEmployeeDto> findAllEmployee(Pageable pageable);
+            " from `user` u\n" +
+            " join `account` a on a.id = u.account_id\n" +
+            " WHERE u.name LIKE %:#{#searchEmployee.name}%" +
+            " or u.phone_number LIKE %:#{#searchEmployee.name}%" +
+            " or a.username LIKE %:#{#searchEmployee.name}%" +
+            " group by u.id\n" +
+            " ORDER BY " +
+            " CASE WHEN :#{#searchEmployee.sortType} = 'ASC' THEN u.name END ASC, " +
+            " CASE WHEN :#{#searchEmployee.sortType} = 'DESC' THEN u.name END DESC, " +
+            " a.id DESC", nativeQuery = true)
+    Page<IEmployeeDto> findAllEmployee(@Param("searchEmployee") SearchEmployee searchEmployee,
+                                       Pageable pageable);
 
     @Query(value = "SELECT new com.example.be.dto.response.employee.EmployeeDetailDto(u.id, u.name, u.phoneNumber, a.username) " +
             "FROM User u JOIN Account a ON a.id = u.account.id WHERE u.id = :id")

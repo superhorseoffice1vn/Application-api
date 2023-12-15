@@ -13,6 +13,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
 public interface IAgentRepository extends JpaRepository<Agent,Integer> {
 
@@ -22,30 +24,44 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             "       a.name_user as nameUser,\n" +
             "       a.address as address,\n" +
             "       a.location_google_map as locationGoogleMap\n" +
-            "from agent a " +
-            "join user u on u.id = a.id_user " +
-            "where a.name_agent like %:#{#agentsEmployeeDto.nameAgent}% " +
-            "and u.id = :#{#agentsEmployeeDto.id} " +
-            "and a.delete_status = false " +
-            "group by a.id " +
-            "order by a.id desc",nativeQuery = true)
+            " from `agent` a " +
+            " join `user` u on u.id = a.id_user " +
+            " where ( a.name_agent like %:#{#agentsEmployeeDto.name}% " +
+            " OR a.phone_number LIKE %:#{#agentsEmployeeDto.name}%" +
+            " OR a.name_user LIKE %:#{#agentsEmployeeDto.name}%" +
+            " OR a.address LIKE %:#{#agentsEmployeeDto.name}% )" +
+            " and u.id = :#{#agentsEmployeeDto.id} " +
+            " and a.delete_status = false " +
+            " group by a.id " +
+            " ORDER BY " +
+            " CASE WHEN :#{#agentsEmployeeDto.sortType} = 'ASC' THEN a.name_agent END ASC, " +
+            " CASE WHEN :#{#agentsEmployeeDto.sortType} = 'DESC' THEN a.name_agent END DESC, " +
+            " a.id DESC",nativeQuery = true)
     Page<IAgentEmployeeDto>getAgentsEmployee(@Param("agentsEmployeeDto")AgentsEmployeeDto agentsEmployeeDto,
                                              Pageable pageable);
 
-    @Query(value = "select a.id as id ," +
-            "       a.name_agent as nameAgent," +
-            "       a.phone_number as phoneNumber," +
-            "       a.name_user as nameUser," +
-            "       a.address as address," +
-            "       a.location_google_map as locationGoogleMap," +
-            "       u.name as nameEmployee " +
-            " from `agent` a " +
-            " join `user` u on u.id = a.id_user " +
-            " where u.name like %:#{#agentsAdminDto.nameEmployee}%" +
-            " and a.delete_status = false " +
-            " order by a.id desc",nativeQuery = true)
+    @Query(value = "SELECT a.id AS id," +
+            "a.name_agent AS nameAgent," +
+            "a.phone_number AS phoneNumber," +
+            "a.name_user AS nameUser," +
+            "a.address AS address," +
+            "a.location_google_map AS locationGoogleMap," +
+            "u.name AS nameEmployee " +
+            "FROM `agent` a " +
+            "JOIN `user` u ON u.id = a.id_user " +
+            "WHERE ( u.name LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.phone_number LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.name_agent LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.name_user LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.address LIKE %:#{#agentsAdminDto.name}% )" +
+            " AND a.delete_status = false " +
+            "ORDER BY " +
+            "CASE WHEN :#{#agentsAdminDto.sortType} = 'ASC' THEN a.name_agent END ASC, " +
+            "CASE WHEN :#{#agentsAdminDto.sortType} = 'DESC' THEN a.name_agent END DESC, " +
+            "a.id DESC", nativeQuery = true)
     Page<IAgentAdminDto> getAgentsAdmin(@Param("agentsAdminDto")AgentsAdminDto agentsAdminDto,
                                         Pageable pageable);
+
 
     @Modifying(clearAutomatically = true)
     @Query(value = "update agent a set a.delete_status = true where id = :id",nativeQuery = true)

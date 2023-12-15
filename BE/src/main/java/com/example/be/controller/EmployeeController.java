@@ -1,5 +1,6 @@
 package com.example.be.controller;
 
+import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.ResponseMessage;
 import com.example.be.dto.response.employee.ChangePasswordForm;
@@ -48,9 +49,11 @@ public class EmployeeController {
     PasswordEncoder passwordEncoder;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/list")
-    public ResponseEntity<Page<IEmployeeDto>> findAllEmployee(@PageableDefault(value = 5) Pageable pageable) {
-        Page<IEmployeeDto> employeeDtos = userService.findAllEmployee(pageable);
+    @PostMapping("/list")
+    public ResponseEntity<Page<IEmployeeDto>> findAllEmployee(
+            @RequestBody SearchEmployee searchEmployee,
+            @PageableDefault(value = 5) Pageable pageable) {
+        Page<IEmployeeDto> employeeDtos = userService.findAllEmployee(searchEmployee,pageable);
         if (employeeDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

@@ -1,5 +1,6 @@
 package com.example.be.service.impl;
 
+import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployeeDto;
@@ -17,9 +18,10 @@ public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
 
+
     @Override
-    public Page<IEmployeeDto> findAllEmployee(final Pageable pageable) {
-        return userRepository.findAllEmployee(pageable);
+    public Page<IEmployeeDto> findAllEmployee(final SearchEmployee searchEmployee, final Pageable pageable) {
+        return userRepository.findAllEmployee(searchEmployee,pageable);
     }
 
     @Override

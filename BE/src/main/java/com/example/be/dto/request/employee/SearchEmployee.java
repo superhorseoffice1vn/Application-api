@@ -1,17 +1,8 @@
-package com.example.be.dto.request.agent;
+package com.example.be.dto.request.employee;
 
-public class AgentsEmployeeDto {
-    private Integer id;
+public class SearchEmployee {
     private String name;
     private String sortType;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
