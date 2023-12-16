@@ -3,6 +3,7 @@ package com.example.be.service.impl;
 import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
+import com.example.be.dto.response.employee.IEmployee;
 import com.example.be.dto.response.employee.IEmployeeDto;
 import com.example.be.model.user.User;
 import com.example.be.repository.user.IUserRepository;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements IUserService {
@@ -53,6 +56,16 @@ public class UserService implements IUserService {
     @Override
     public UpdateEmployeeDto findByIdEmployee(final Integer id) {
         return userRepository.getByIdEmployee(id);
+    }
+
+    @Override
+    public List<IEmployeeDto> getEmployees() {
+        return userRepository.getEmployees();
+    }
+
+    @Override
+    public List<IEmployee> getEmployee() {
+        return userRepository.getEmployee();
     }
 
 

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AgentService implements IAgentService {
 
@@ -36,6 +38,16 @@ public class AgentService implements IAgentService {
     @Override
     public void deleteAgent(final Integer id) {
         iAgentRepository.deleteAgent(id);
+    }
+
+    @Override
+    public List<Integer> getAgentIds(final List<Integer> idList) {
+        return iAgentRepository.getAgentIds(idList);
+    }
+
+    @Override
+    public void updateListId(final Integer id, final List<Integer> idList) {
+        iAgentRepository.updateListId(id , idList);
     }
 
     @Override

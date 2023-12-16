@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface IAgentRepository extends JpaRepository<Agent,Integer> {
@@ -66,4 +66,12 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
     @Modifying(clearAutomatically = true)
     @Query(value = "update agent a set a.delete_status = true where id = :id",nativeQuery = true)
     void deleteAgent(@Param("id") Integer id);
-}
+
+    @Query(value = "select a.id from agent a where a.id in (:idList)",nativeQuery = true)
+    List<Integer> getAgentIds(@Param("idList")List<Integer> idList);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update agent a set a.id_user = :id where id in (:idList)",nativeQuery = true)
+    void updateListId(@Param("id") Integer id,
+                      @Param("idList")List<Integer> idList);
+ }

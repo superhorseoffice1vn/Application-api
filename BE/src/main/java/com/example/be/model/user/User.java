@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -42,7 +43,7 @@ public class User {
 
     @JsonBackReference
     @OneToMany(mappedBy = "user")
-    private Set<Agent> agents;
+    private List<Agent> agents;
 
     public Integer getId() {
         return id;
@@ -132,11 +133,11 @@ public class User {
         this.account = account;
     }
 
-    public Set<Agent> getAgents() {
+    public List<Agent> getAgents() {
         return agents;
     }
 
-    public void setAgents(final Set<Agent> agents) {
+    public void setAgents(final List<Agent> agents) {
         this.agents = agents;
     }
 }

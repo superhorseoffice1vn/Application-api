@@ -31,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/agent")
@@ -106,5 +109,15 @@ public class AgentController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(iAgentAdminDtos, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateEmployeeId")
+    public ResponseEntity<?> updateEmployeeId(@RequestBody Map<String, Object> requestBody) {
+        Integer id = (Integer) requestBody.get("id");
+        List<Integer> idList = (List<Integer>) requestBody.get("idList");
+
+        List<Integer> getEmployeeIds = iAgentService.getAgentIds(idList);
+        iAgentService.updateListId(id, getEmployeeIds);
+        return new ResponseEntity<>(new ResponseMessage("Update agent list employee success!"), HttpStatus.OK);
     }
 }

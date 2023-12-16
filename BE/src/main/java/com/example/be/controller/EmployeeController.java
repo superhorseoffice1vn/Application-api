@@ -5,6 +5,7 @@ import com.example.be.dto.request.employee.UpdateEmployeeDto;
 import com.example.be.dto.response.ResponseMessage;
 import com.example.be.dto.response.employee.ChangePasswordForm;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
+import com.example.be.dto.response.employee.IEmployee;
 import com.example.be.dto.response.employee.IEmployeeDto;
 import com.example.be.model.account.Account;
 import com.example.be.model.user.User;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import java.util.List;
 import java.util.Objects;
 
 @CrossOrigin("*")
@@ -117,5 +119,17 @@ public class EmployeeController {
     public ResponseEntity<UpdateEmployeeDto> employeeById(@PathVariable() Integer id) {
         UpdateEmployeeDto updateEmployeeDto = userService.findByIdEmployee(id);
         return new ResponseEntity<>(updateEmployeeDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/allEmployee")
+    public ResponseEntity<List<IEmployeeDto>> getEmployees(){
+        List<IEmployeeDto> user = userService.getEmployees();
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+
+    @GetMapping("/employees")
+    public ResponseEntity<?> getEmployee(){
+        List<IEmployee> employeeDto = userService.getEmployee();
+        return new ResponseEntity<>(employeeDto,HttpStatus.OK);
     }
 }
