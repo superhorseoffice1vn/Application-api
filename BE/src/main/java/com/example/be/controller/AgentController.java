@@ -84,7 +84,9 @@ public class AgentController {
             return new ResponseEntity<>(bindingResult.getFieldErrors(), HttpStatus.NOT_ACCEPTABLE);
         }
         Agent agent = iAgentService.findById(id);
+        User user = iUserService.findById(updateAgentDto.getIdUser());
         BeanUtils.copyProperties(updateAgentDto, agent);
+        agent.setUser(user);
         iAgentService.updateAgent(agent);
         return new ResponseEntity<>(agent, HttpStatus.CREATED);
     }
@@ -119,5 +121,11 @@ public class AgentController {
         List<Integer> getEmployeeIds = iAgentService.getAgentIds(idList);
         iAgentService.updateListId(id, getEmployeeIds);
         return new ResponseEntity<>(new ResponseMessage("Update agent list employee success!"), HttpStatus.OK);
+    }
+
+    @GetMapping("/allAgent")
+    public ResponseEntity<?> getAll(){
+        List<Agent> agents = iAgentService.getAll();
+        return new ResponseEntity<>(agents,HttpStatus.OK);
     }
 }

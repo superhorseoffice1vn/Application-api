@@ -7,6 +7,7 @@ public class UpdateAgentDto {
     private String phoneNumber;
     private String address;
     private String locationGoogleMap;
+    private Integer idUser;
 
     public String getNameAgent() {
         return nameAgent;
@@ -46,5 +47,13 @@ public class UpdateAgentDto {
 
     public void setLocationGoogleMap(final String locationGoogleMap) {
         this.locationGoogleMap = locationGoogleMap;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(final Integer idUser) {
+        this.idUser = idUser;
     }
 }

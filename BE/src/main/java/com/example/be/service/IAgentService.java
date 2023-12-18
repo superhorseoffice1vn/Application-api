@@ -24,6 +24,8 @@ public interface IAgentService {
 
     List<Integer> getAgentIds(List<Integer> idList);
 
+    List<Agent> getAll();
+
     @Transactional
     void updateListId(Integer id , List<Integer> idList);
 

@@ -46,6 +46,11 @@ public class AgentService implements IAgentService {
     }
 
     @Override
+    public List<Agent> getAll() {
+        return iAgentRepository.getAll();
+    }
+
+    @Override
     public void updateListId(final Integer id, final List<Integer> idList) {
         iAgentRepository.updateListId(id , idList);
     }

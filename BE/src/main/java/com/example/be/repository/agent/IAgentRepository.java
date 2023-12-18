@@ -74,4 +74,7 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
     @Query(value = "update agent a set a.id_user = :id where id in (:idList)",nativeQuery = true)
     void updateListId(@Param("id") Integer id,
                       @Param("idList")List<Integer> idList);
+
+    @Query(value = "select * from agent a where a.delete_status = false ",nativeQuery = true)
+    List<Agent> getAll();
  }
