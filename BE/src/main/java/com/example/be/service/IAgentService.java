@@ -26,10 +26,19 @@ public interface IAgentService {
 
     List<Agent> getAll();
 
+    List<Integer> findByListId(List<Integer> idList);
+
+    @Transactional
+    void removeByListId(List<Integer> idList);
+
     @Transactional
     void updateListId(Integer id , List<Integer> idList);
 
     Page<IAgentEmployeeDto> getAgentsEmployee(AgentsEmployeeDto agentsEmployeeDto, Pageable pageable);
 
     Page<IAgentAdminDto> getAgentsAdmin(AgentsAdminDto agentsAdminDto, Pageable pageable);
+
+    Page<IAgentAdminDto> getAgentsAdminRestore(AgentsAdminDto agentsAdminDto, Pageable pageable);
+
+    List<IAgentAdminDto> getListAgent(List<Integer> idList);
 }

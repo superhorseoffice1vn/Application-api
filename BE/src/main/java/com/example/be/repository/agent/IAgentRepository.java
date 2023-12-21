@@ -77,4 +77,41 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
 
     @Query(value = "select * from agent a where a.delete_status = false ",nativeQuery = true)
     List<Agent> getAll();
+
+    @Query(value = "select a.id from agent a where id in (:idList) and delete_status = false ",nativeQuery = true)
+    List<Integer> findByListId(@Param("idList") List<Integer> idList);
+
+    @Modifying
+    @Query(value = "update agent a set a.delete_status = true where id in (:idList)", nativeQuery = true)
+    void removeByListId(@Param("idList") List<Integer> idList);
+
+    @Query(value = "SELECT a.id AS id," +
+            "a.name_agent AS nameAgent," +
+            "a.phone_number AS phoneNumber," +
+            "a.name_user AS nameUser," +
+            "a.address AS address," +
+            "a.location_google_map AS locationGoogleMap," +
+            "u.name AS nameEmployee " +
+            "FROM `agent` a " +
+            "JOIN `user` u ON u.id = a.id_user " +
+            "WHERE ( u.name LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.phone_number LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.name_agent LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.name_user LIKE %:#{#agentsAdminDto.name}%" +
+            " OR a.address LIKE %:#{#agentsAdminDto.name}% )" +
+            " AND a.delete_status = true ", nativeQuery = true)
+    Page<IAgentAdminDto> getAgentsAdminRestore(@Param("agentsAdminDto")AgentsAdminDto agentsAdminDto,
+                                        Pageable pageable);
+
+    @Query(value = "SELECT a.id AS id, " +
+            "            a.name_agent AS nameAgent, " +
+            "            a.phone_number AS phoneNumber, " +
+            "            a.name_user AS nameUser, " +
+            "            a.address AS address, " +
+            "            a.location_google_map AS locationGoogleMap, " +
+            "            u.name AS nameEmployee " +
+            "from `agent` a " +
+            "join `user` u on u.id = a.id_user " +
+            "where a.id in (:idList) and a.delete_status = false ",nativeQuery = true)
+    List<IAgentAdminDto> getListAgent(@Param("idList") List<Integer> idList);
  }

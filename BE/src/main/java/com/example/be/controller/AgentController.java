@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @CrossOrigin("*")
 @RestController
@@ -88,7 +89,7 @@ public class AgentController {
         BeanUtils.copyProperties(updateAgentDto, agent);
         agent.setUser(user);
         iAgentService.updateAgent(agent);
-        return new ResponseEntity<>(agent, HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseMessage("Update agent success!"), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -119,13 +120,53 @@ public class AgentController {
         List<Integer> idList = (List<Integer>) requestBody.get("idList");
 
         List<Integer> getEmployeeIds = iAgentService.getAgentIds(idList);
+        if (idList.size() != getEmployeeIds.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         iAgentService.updateListId(id, getEmployeeIds);
         return new ResponseEntity<>(new ResponseMessage("Update agent list employee success!"), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/allAgent")
     public ResponseEntity<?> getAll(){
         List<Agent> agents = iAgentService.getAll();
         return new ResponseEntity<>(agents,HttpStatus.OK);
+    }
+
+    @PostMapping("/remove")
+    public ResponseEntity<?> remove(@RequestBody List<Integer> idList) {
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Integer> agentList = iAgentService.findByListId(idList);
+        if (idList.size() != agentList.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        iAgentService.removeByListId(idList);
+        return new ResponseEntity<>(new ResponseMessage("Remove agent list employee success!"), HttpStatus.OK);
+    }
+
+    @PostMapping("/listAdminRestore")
+    public ResponseEntity<Page<IAgentAdminDto>> getAgentsAdminRestore(
+            @RequestBody AgentsAdminDto agentsAdminDto ,
+            @PageableDefault(value = 5) Pageable pageable){
+        Page<IAgentAdminDto> iAgentAdminDtoRestore = iAgentService.getAgentsAdminRestore(agentsAdminDto, pageable);
+        if (iAgentAdminDtoRestore.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(iAgentAdminDtoRestore, HttpStatus.OK);
+    }
+
+    @PostMapping("/listAgent")
+    public ResponseEntity<?>getListAgent(@RequestBody List<Integer> idList){
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<IAgentAdminDto> listAgent = iAgentService.getListAgent(idList);
+        if (idList.size() != listAgent.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listAgent,HttpStatus.OK);
     }
 }
