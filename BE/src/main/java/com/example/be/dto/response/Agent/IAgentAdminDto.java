@@ -8,4 +8,5 @@ public interface IAgentAdminDto {
     String getAddress();
     String getLocationGoogleMap();
     String getNameEmployee();
+    String getRegistrationDate();
 }

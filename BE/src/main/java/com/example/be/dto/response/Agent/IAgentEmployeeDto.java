@@ -7,4 +7,5 @@ public interface IAgentEmployeeDto {
     String getNameUser();
     String getAddress();
     String getLocationGoogleMap();
+    String getRegistrationDate();
 }

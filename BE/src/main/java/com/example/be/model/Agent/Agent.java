@@ -18,6 +18,7 @@ public class Agent {
     private String nameUser;
     private String phoneNumber;
     private String address;
+    private String registrationDate;
     private String locationGoogleMap;
     private boolean deleteStatus;
 
@@ -75,6 +76,14 @@ public class Agent {
 
     public boolean isDeleteStatus() {
         return deleteStatus;
+    }
+
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(final String registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     public void setDeleteStatus(final boolean deleteStatus) {

@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,6 +52,10 @@ public class AgentController {
     @PostMapping("/create")
     public ResponseEntity<?> createAgent(@RequestBody CreateAgentDto createAgentDto){
         Agent agent = new Agent();
+        LocalDateTime current = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formatDateTime = current.format(formatter);
+        agent.setRegistrationDate(formatDateTime);
         BeanUtils.copyProperties(createAgentDto, agent);
         User user = iUserService.findById(createAgentDto.getIdUser());
         if (user == null) {

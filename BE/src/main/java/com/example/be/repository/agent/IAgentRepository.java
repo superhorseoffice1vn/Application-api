@@ -23,7 +23,8 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             "       a.phone_number as phoneNumber ,\n" +
             "       a.name_user as nameUser,\n" +
             "       a.address as address,\n" +
-            "       a.location_google_map as locationGoogleMap\n" +
+            "       a.location_google_map as locationGoogleMap,\n" +
+            "       a.registration_date as registrationDate\n" +
             " from `agent` a " +
             " join `user` u on u.id = a.id_user " +
             " where ( a.name_agent like %:#{#agentsEmployeeDto.name}% " +
@@ -46,6 +47,7 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             "a.name_user AS nameUser," +
             "a.address AS address," +
             "a.location_google_map AS locationGoogleMap," +
+            "a.registration_date AS registrationDate," +
             "u.name AS nameEmployee " +
             "FROM `agent` a " +
             "JOIN `user` u ON u.id = a.id_user " +
