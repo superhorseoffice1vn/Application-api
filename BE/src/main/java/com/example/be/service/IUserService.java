@@ -15,6 +15,9 @@ import java.util.List;
 public interface IUserService {
     Page<IEmployeeDto> findAllEmployee(SearchEmployee searchEmployee, Pageable pageable);
 
+    Page<IEmployeeDto> findAllEmployeeRestore(SearchEmployee searchEmployee, Pageable pageable);
+
+
     EmployeeDetailDto getUserById(Integer id);
 
     void createUser(User user);
@@ -32,5 +35,7 @@ public interface IUserService {
     List<IEmployee> getEmployee();
 
     List<IEmployeeDto> getListEmployees(List<Integer> idList);
+
+    List<IEmployeeDto> getListEmployeesRestore(List<Integer> idList);
 
 }

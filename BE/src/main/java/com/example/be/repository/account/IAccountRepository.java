@@ -34,7 +34,14 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     @Query(value = "select a.id from account a where id in (:idList) and delete_status = false ",nativeQuery = true)
     List<Integer> findByListIdAccount(@Param("idList") List<Integer> idList);
 
+    @Query(value = "select a.id from account a where id in (:idList) and delete_status = true ",nativeQuery = true)
+    List<Integer> findByListIdAccountRestore(@Param("idList") List<Integer> idList);
+
     @Modifying
     @Query(value = "update account a set a.delete_status = true where id in (:idList)", nativeQuery = true)
     void removeByListIdAccount(@Param("idList") List<Integer> idList);
+
+    @Modifying
+    @Query(value = "update account a set a.delete_status = false where id in (:idList)", nativeQuery = true)
+    void restoreByListIdAccount(@Param("idList") List<Integer> idList);
 }

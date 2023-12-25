@@ -57,7 +57,17 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public List<Integer> findByListIdAccountRestore(final List<Integer> idList) {
+        return accountRepository.findByListIdAccountRestore(idList);
+    }
+
+    @Override
     public void removeByListIdAccount(final List<Integer> idList) {
         accountRepository.removeByListIdAccount(idList);
+    }
+
+    @Override
+    public void restoreByListIdAccount(final List<Integer> idList) {
+        accountRepository.restoreByListIdAccount(idList);
     }
 }

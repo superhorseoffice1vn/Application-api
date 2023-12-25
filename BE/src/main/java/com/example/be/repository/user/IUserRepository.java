@@ -39,6 +39,21 @@ public interface IUserRepository
     Page<IEmployeeDto> findAllEmployee(@Param("searchEmployee") SearchEmployee searchEmployee,
                                        Pageable pageable);
 
+    @Query(value = "select u.id as id,\n" +
+            "       u.name,\n" +
+            "       u.phone_number as phoneNumber,\n" +
+            "       a.username,\n" +
+            "       a.id as idAccount\n" +
+            " from `user` u\n" +
+            " join `account` a on a.id = u.account_id\n" +
+            " WHERE ( u.name LIKE %:#{#searchEmployee.name}%" +
+            " or u.phone_number LIKE %:#{#searchEmployee.name}%" +
+            " or a.username LIKE %:#{#searchEmployee.name}% )" +
+            " and a.delete_status = true " +
+            " group by u.id\n" , nativeQuery = true)
+    Page<IEmployeeDto> findAllEmployeeRestore(@Param("searchEmployee") SearchEmployee searchEmployee,
+                                       Pageable pageable);
+
     @Query(value = "SELECT new com.example.be.dto.response.employee.EmployeeDetailDto(u.id, u.name, u.phoneNumber, a.username) " +
             "FROM User u JOIN Account a ON a.id = u.account.id WHERE u.id = :id")
     EmployeeDetailDto getDetailEmployee(@Param("id") Integer id);
@@ -68,6 +83,16 @@ public interface IUserRepository
             " join `account` a on a.id = u.account_id\n" +
             " where a.id in (:idList) and a.delete_status = false  ",nativeQuery = true)
     List<IEmployeeDto> getListEmployee(@Param("idList") List<Integer> idList);
+
+    @Query(value = "select u.id as id,\n" +
+            "       u.name,\n" +
+            "       u.phone_number as phoneNumber,\n" +
+            "       a.username,\n" +
+            "       a.id as idAccount\n" +
+            " from `user` u\n" +
+            " join `account` a on a.id = u.account_id\n" +
+            " where a.id in (:idList) and a.delete_status = true  ",nativeQuery = true)
+    List<IEmployeeDto> getListEmployeeRestore(@Param("idList") List<Integer> idList);
 
     @Query(value = "select u.id as id , u.name as name from user u",nativeQuery = true)
     List<IEmployee> getEmployee();

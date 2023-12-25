@@ -63,6 +63,18 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDtos, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/listRestore")
+    public ResponseEntity<Page<IEmployeeDto>> findAllEmployeeRestore(
+            @RequestBody SearchEmployee searchEmployee,
+            @PageableDefault(value = 5) Pageable pageable) {
+        Page<IEmployeeDto> employeeDtos = userService.findAllEmployeeRestore(searchEmployee,pageable);
+        if (employeeDtos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(employeeDtos, HttpStatus.OK);
+    }
+
     @GetMapping("/detail/{id}")
     public ResponseEntity<EmployeeDetailDto> detail(@PathVariable Integer id) {
         EmployeeDetailDto employeeDetailDto = userService.getUserById(id);
@@ -147,12 +159,37 @@ public class EmployeeController {
         return new ResponseEntity<>(new ResponseMessage("Remove employee success!"), HttpStatus.OK);
     }
 
+    @PostMapping("/restore")
+    public ResponseEntity<?> restore(@RequestBody List<Integer> idList) {
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Integer> agentList = accountService.findByListIdAccountRestore(idList);
+        if (idList.size() != agentList.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        accountService.restoreByListIdAccount(idList);
+        return new ResponseEntity<>(new ResponseMessage("Restore employee success!"), HttpStatus.OK);
+    }
+
     @PostMapping("/listEmployee")
     public ResponseEntity<?>getListEmployee(@RequestBody List<Integer> idList){
         if (idList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<IEmployeeDto> listEmployee = userService.getListEmployees(idList);
+        if (idList.size() != listEmployee.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listEmployee,HttpStatus.OK);
+    }
+
+    @PostMapping("/listEmployeeRestore")
+    public ResponseEntity<?>getListEmployeeRestore(@RequestBody List<Integer> idList){
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<IEmployeeDto> listEmployee = userService.getListEmployeesRestore(idList);
         if (idList.size() != listEmployee.size()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

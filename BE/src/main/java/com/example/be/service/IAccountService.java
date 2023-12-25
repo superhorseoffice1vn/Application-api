@@ -25,7 +25,12 @@ public interface IAccountService {
 
     List<Integer> findByListIdAccount(List<Integer> idList);
 
+    List<Integer> findByListIdAccountRestore(List<Integer> idList);
+
     @Transactional
     void removeByListIdAccount(List<Integer> idList);
+
+    @Transactional
+    void restoreByListIdAccount(List<Integer> idList);
 
 }

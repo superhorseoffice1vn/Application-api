@@ -28,6 +28,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Page<IEmployeeDto> findAllEmployeeRestore(final SearchEmployee searchEmployee, final Pageable pageable) {
+        return userRepository.findAllEmployeeRestore(searchEmployee,pageable);
+    }
+
+    @Override
     public EmployeeDetailDto getUserById(final Integer id) {
         return userRepository.getDetailEmployee(id);
     }
@@ -71,6 +76,11 @@ public class UserService implements IUserService {
     @Override
     public List<IEmployeeDto> getListEmployees(final List<Integer> idList) {
         return userRepository.getListEmployee(idList);
+    }
+
+    @Override
+    public List<IEmployeeDto> getListEmployeesRestore(final List<Integer> idList) {
+        return userRepository.getListEmployeeRestore(idList);
     }
 
 
