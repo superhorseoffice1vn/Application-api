@@ -2,6 +2,7 @@ package com.example.be.service;
 
 import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
+import com.example.be.dto.response.Agent.IAgentAdminDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployee;
 import com.example.be.dto.response.employee.IEmployeeDto;
@@ -29,5 +30,7 @@ public interface IUserService {
     List<IEmployeeDto> getEmployees();
 
     List<IEmployee> getEmployee();
+
+    List<IEmployeeDto> getListEmployees(List<Integer> idList);
 
 }

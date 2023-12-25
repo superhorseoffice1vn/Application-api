@@ -2,6 +2,7 @@ package com.example.be.repository.user;
 
 import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
+import com.example.be.dto.response.Agent.IAgentAdminDto;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
 import com.example.be.dto.response.employee.IEmployee;
 import com.example.be.dto.response.employee.IEmployeeDto;
@@ -22,12 +23,14 @@ public interface IUserRepository
     @Query(value = "select u.id as id,\n" +
             "       u.name,\n" +
             "       u.phone_number as phoneNumber,\n" +
-            "       a.username\n" +
+            "       a.username,\n" +
+            "       a.id as idAccount\n" +
             " from `user` u\n" +
             " join `account` a on a.id = u.account_id\n" +
-            " WHERE u.name LIKE %:#{#searchEmployee.name}%" +
+            " WHERE ( u.name LIKE %:#{#searchEmployee.name}%" +
             " or u.phone_number LIKE %:#{#searchEmployee.name}%" +
-            " or a.username LIKE %:#{#searchEmployee.name}%" +
+            " or a.username LIKE %:#{#searchEmployee.name}% )" +
+            " and a.delete_status = false " +
             " group by u.id\n" +
             " ORDER BY " +
             " CASE WHEN :#{#searchEmployee.sortType} = 'ASC' THEN u.name END ASC, " +
@@ -52,9 +55,19 @@ public interface IUserRepository
             "       a.username\n" +
             " from `user` u\n" +
             " join `account` a on a.id = u.account_id\n" +
-            "   WHERE u.delete_status = false " +
+            "   WHERE a.delete_status = false " +
             "   order by u.name",nativeQuery = true)
     List<IEmployeeDto> getEmployees();
+
+    @Query(value = "select u.id as id,\n" +
+            "       u.name,\n" +
+            "       u.phone_number as phoneNumber,\n" +
+            "       a.username,\n" +
+            "       a.id as idAccount\n" +
+            " from `user` u\n" +
+            " join `account` a on a.id = u.account_id\n" +
+            " where a.id in (:idList) and a.delete_status = false  ",nativeQuery = true)
+    List<IEmployeeDto> getListEmployee(@Param("idList") List<Integer> idList);
 
     @Query(value = "select u.id as id , u.name as name from user u",nativeQuery = true)
     List<IEmployee> getEmployee();

@@ -83,9 +83,16 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
     @Query(value = "select a.id from agent a where id in (:idList) and delete_status = false ",nativeQuery = true)
     List<Integer> findByListId(@Param("idList") List<Integer> idList);
 
+    @Query(value = "select a.id from agent a where id in (:idList) and delete_status = true ",nativeQuery = true)
+    List<Integer> findByListIdRestore(@Param("idList") List<Integer> idList);
+
     @Modifying
     @Query(value = "update agent a set a.delete_status = true where id in (:idList)", nativeQuery = true)
     void removeByListId(@Param("idList") List<Integer> idList);
+
+    @Modifying
+    @Query(value = "update agent a set a.delete_status = false where id in (:idList)", nativeQuery = true)
+    void restoreByListId(@Param("idList") List<Integer> idList);
 
     @Query(value = "SELECT a.id AS id," +
             "a.name_agent AS nameAgent," +
@@ -93,6 +100,7 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             "a.name_user AS nameUser," +
             "a.address AS address," +
             "a.location_google_map AS locationGoogleMap," +
+            "a.registration_date AS registrationDate," +
             "u.name AS nameEmployee " +
             "FROM `agent` a " +
             "JOIN `user` u ON u.id = a.id_user " +
@@ -116,4 +124,16 @@ public interface IAgentRepository extends JpaRepository<Agent,Integer> {
             "join `user` u on u.id = a.id_user " +
             "where a.id in (:idList) and a.delete_status = false ",nativeQuery = true)
     List<IAgentAdminDto> getListAgent(@Param("idList") List<Integer> idList);
+
+    @Query(value = "SELECT a.id AS id, " +
+            "            a.name_agent AS nameAgent, " +
+            "            a.phone_number AS phoneNumber, " +
+            "            a.name_user AS nameUser, " +
+            "            a.address AS address, " +
+            "            a.location_google_map AS locationGoogleMap, " +
+            "            u.name AS nameEmployee " +
+            "from `agent` a " +
+            "join `user` u on u.id = a.id_user " +
+            "where a.id in (:idList) and a.delete_status = true ",nativeQuery = true)
+    List<IAgentAdminDto> getListAgentRestore(@Param("idList") List<Integer> idList);
  }

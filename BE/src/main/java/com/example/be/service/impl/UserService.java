@@ -68,5 +68,10 @@ public class UserService implements IUserService {
         return userRepository.getEmployee();
     }
 
+    @Override
+    public List<IEmployeeDto> getListEmployees(final List<Integer> idList) {
+        return userRepository.getListEmployee(idList);
+    }
+
 
 }

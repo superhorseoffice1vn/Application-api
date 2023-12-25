@@ -28,8 +28,13 @@ public interface IAgentService {
 
     List<Integer> findByListId(List<Integer> idList);
 
+    List<Integer> findByListIdRestore(List<Integer> idList);
+
     @Transactional
     void removeByListId(List<Integer> idList);
+
+    @Transactional
+    void restoreByListId(List<Integer> idList);
 
     @Transactional
     void updateListId(Integer id , List<Integer> idList);
@@ -41,4 +46,6 @@ public interface IAgentService {
     Page<IAgentAdminDto> getAgentsAdminRestore(AgentsAdminDto agentsAdminDto, Pageable pageable);
 
     List<IAgentAdminDto> getListAgent(List<Integer> idList);
+
+    List<IAgentAdminDto> getListAgentRestore(List<Integer> idList);
 }

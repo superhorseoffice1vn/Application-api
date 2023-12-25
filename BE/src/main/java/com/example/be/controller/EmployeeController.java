@@ -2,6 +2,7 @@ package com.example.be.controller;
 
 import com.example.be.dto.request.employee.SearchEmployee;
 import com.example.be.dto.request.employee.UpdateEmployeeDto;
+import com.example.be.dto.response.Agent.IAgentAdminDto;
 import com.example.be.dto.response.ResponseMessage;
 import com.example.be.dto.response.employee.ChangePasswordForm;
 import com.example.be.dto.response.employee.EmployeeDetailDto;
@@ -131,5 +132,30 @@ public class EmployeeController {
     public ResponseEntity<?> getEmployee(){
         List<IEmployee> employeeDto = userService.getEmployee();
         return new ResponseEntity<>(employeeDto,HttpStatus.OK);
+    }
+
+    @PostMapping("/remove")
+    public ResponseEntity<?> remove(@RequestBody List<Integer> idList) {
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Integer> agentList = accountService.findByListIdAccount(idList);
+        if (idList.size() != agentList.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        accountService.removeByListIdAccount(idList);
+        return new ResponseEntity<>(new ResponseMessage("Remove employee success!"), HttpStatus.OK);
+    }
+
+    @PostMapping("/listEmployee")
+    public ResponseEntity<?>getListEmployee(@RequestBody List<Integer> idList){
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<IEmployeeDto> listEmployee = userService.getListEmployees(idList);
+        if (idList.size() != listEmployee.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listEmployee,HttpStatus.OK);
     }
 }

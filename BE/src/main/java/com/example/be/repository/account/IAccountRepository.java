@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,7 +18,7 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     @Query(
             value = " select * " +
                     " from account " +
-                    " where username = :username ",
+                    " where username = :username and delete_status = false ",
             nativeQuery = true
     )
     Account findAccountByUsername(@Param("username") String username);
@@ -29,4 +30,11 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     @Modifying
     @Query(value = "update account set password = :password where username = :username", nativeQuery = true)
     void changePassword(@Param("password") String password, @Param("username") String username);
+
+    @Query(value = "select a.id from account a where id in (:idList) and delete_status = false ",nativeQuery = true)
+    List<Integer> findByListIdAccount(@Param("idList") List<Integer> idList);
+
+    @Modifying
+    @Query(value = "update account a set a.delete_status = true where id in (:idList)", nativeQuery = true)
+    void removeByListIdAccount(@Param("idList") List<Integer> idList);
 }

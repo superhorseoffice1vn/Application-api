@@ -6,6 +6,7 @@ import com.example.be.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +49,15 @@ public class AccountService implements IAccountService {
     @Override
     public void updatePassword(String password, String username) {
         accountRepository.changePassword(password,username);
+    }
+
+    @Override
+    public List<Integer> findByListIdAccount(final List<Integer> idList) {
+        return accountRepository.findByListIdAccount(idList);
+    }
+
+    @Override
+    public void removeByListIdAccount(final List<Integer> idList) {
+        accountRepository.removeByListIdAccount(idList);
     }
 }

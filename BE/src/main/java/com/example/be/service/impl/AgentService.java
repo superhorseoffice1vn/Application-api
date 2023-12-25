@@ -56,8 +56,18 @@ public class AgentService implements IAgentService {
     }
 
     @Override
+    public List<Integer> findByListIdRestore(final List<Integer> idList) {
+        return iAgentRepository.findByListIdRestore(idList);
+    }
+
+    @Override
     public void removeByListId(final List<Integer> idList) {
         iAgentRepository.removeByListId(idList);
+    }
+
+    @Override
+    public void restoreByListId(final List<Integer> idList) {
+        iAgentRepository.restoreByListId(idList);
     }
 
     @Override
@@ -83,5 +93,10 @@ public class AgentService implements IAgentService {
     @Override
     public List<IAgentAdminDto> getListAgent(final List<Integer> idList) {
         return iAgentRepository.getListAgent(idList);
+    }
+
+    @Override
+    public List<IAgentAdminDto> getListAgentRestore(final List<Integer> idList) {
+        return iAgentRepository.getListAgentRestore(idList);
     }
 }

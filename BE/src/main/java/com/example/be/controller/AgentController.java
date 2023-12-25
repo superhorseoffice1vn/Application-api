@@ -153,6 +153,20 @@ public class AgentController {
         return new ResponseEntity<>(new ResponseMessage("Remove agent list employee success!"), HttpStatus.OK);
     }
 
+    @PostMapping("/restore")
+    public ResponseEntity<?> removeRestore(@RequestBody List<Integer> idList) {
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Integer> agentList = iAgentService.findByListIdRestore(idList);
+        if (idList.size() != agentList.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        iAgentService.restoreByListId(idList);
+        return new ResponseEntity<>(new ResponseMessage("Remove agent list employee success!"), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/listAdminRestore")
     public ResponseEntity<Page<IAgentAdminDto>> getAgentsAdminRestore(
             @RequestBody AgentsAdminDto agentsAdminDto ,
@@ -170,6 +184,18 @@ public class AgentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<IAgentAdminDto> listAgent = iAgentService.getListAgent(idList);
+        if (idList.size() != listAgent.size()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listAgent,HttpStatus.OK);
+    }
+
+    @PostMapping("/listAgentRestore")
+    public ResponseEntity<?>getListAgentRestore(@RequestBody List<Integer> idList){
+        if (idList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<IAgentAdminDto> listAgent = iAgentService.getListAgentRestore(idList);
         if (idList.size() != listAgent.size()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
