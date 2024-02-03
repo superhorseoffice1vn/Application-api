@@ -45,3 +45,8 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+bootJar {
+   archiveFileName = "be-app.jar"
+}
