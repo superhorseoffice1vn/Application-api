@@ -58,6 +58,7 @@ public class WebSecurityConfig
         http.cors().and()
             .authorizeRequests()
             .antMatchers("/api/**").permitAll()
+            .antMatchers("api/auth").permitAll()
             .anyRequest().authenticated()
             .and().exceptionHandling()
             .authenticationEntryPoint(jwtEntryPoint)
@@ -66,14 +67,14 @@ public class WebSecurityConfig
             .csrf().disable();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
