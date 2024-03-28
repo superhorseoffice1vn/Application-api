@@ -32,10 +32,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @CrossOrigin("*")
 @RestController
@@ -50,9 +50,10 @@ public class AgentController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAgent(@RequestBody CreateAgentDto createAgentDto){
+    public ResponseEntity<?> createAgent(@RequestBody CreateAgentDto createAgentDto) {
         Agent agent = new Agent();
-        LocalDateTime current = LocalDateTime.now();
+        ZoneId vietnamZone = ZoneId.of("Asia/Ho_Chi_Minh");
+        LocalDateTime current = LocalDateTime.now(vietnamZone);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String formatDateTime = current.format(formatter);
         agent.setRegistrationDate(formatDateTime);
@@ -74,8 +75,8 @@ public class AgentController {
 
     @PostMapping("/listEmployee")
     public ResponseEntity<Page<IAgentEmployeeDto>> getAgentsEmployee(
-            @RequestBody AgentsEmployeeDto agentsEmployeeDto ,
-            @PageableDefault(value = 5) Pageable pageable){
+            @RequestBody AgentsEmployeeDto agentsEmployeeDto,
+            @PageableDefault(value = 5) Pageable pageable) {
         Page<IAgentEmployeeDto> iAgentEmployeeDtos = iAgentService.getAgentsEmployee(agentsEmployeeDto, pageable);
         if (iAgentEmployeeDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -111,8 +112,8 @@ public class AgentController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/listAdmin")
     public ResponseEntity<Page<IAgentAdminDto>> getAgentsAdmin(
-            @RequestBody AgentsAdminDto agentsAdminDto ,
-            @PageableDefault(value = 5) Pageable pageable){
+            @RequestBody AgentsAdminDto agentsAdminDto,
+            @PageableDefault(value = 5) Pageable pageable) {
         Page<IAgentAdminDto> iAgentAdminDtos = iAgentService.getAgentsAdmin(agentsAdminDto, pageable);
         if (iAgentAdminDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -135,9 +136,9 @@ public class AgentController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/allAgent")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll() {
         List<Agent> agents = iAgentService.getAll();
-        return new ResponseEntity<>(agents,HttpStatus.OK);
+        return new ResponseEntity<>(agents, HttpStatus.OK);
     }
 
     @PostMapping("/remove")
@@ -169,8 +170,8 @@ public class AgentController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/listAdminRestore")
     public ResponseEntity<Page<IAgentAdminDto>> getAgentsAdminRestore(
-            @RequestBody AgentsAdminDto agentsAdminDto ,
-            @PageableDefault(value = 5) Pageable pageable){
+            @RequestBody AgentsAdminDto agentsAdminDto,
+            @PageableDefault(value = 5) Pageable pageable) {
         Page<IAgentAdminDto> iAgentAdminDtoRestore = iAgentService.getAgentsAdminRestore(agentsAdminDto, pageable);
         if (iAgentAdminDtoRestore.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -179,7 +180,7 @@ public class AgentController {
     }
 
     @PostMapping("/listAgent")
-    public ResponseEntity<?>getListAgent(@RequestBody List<Integer> idList){
+    public ResponseEntity<?> getListAgent(@RequestBody List<Integer> idList) {
         if (idList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -187,11 +188,11 @@ public class AgentController {
         if (idList.size() != listAgent.size()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(listAgent,HttpStatus.OK);
+        return new ResponseEntity<>(listAgent, HttpStatus.OK);
     }
 
     @PostMapping("/listAgentRestore")
-    public ResponseEntity<?>getListAgentRestore(@RequestBody List<Integer> idList){
+    public ResponseEntity<?> getListAgentRestore(@RequestBody List<Integer> idList) {
         if (idList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -199,6 +200,6 @@ public class AgentController {
         if (idList.size() != listAgent.size()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(listAgent,HttpStatus.OK);
+        return new ResponseEntity<>(listAgent, HttpStatus.OK);
     }
 }
